@@ -4365,7 +4365,7 @@ namespace Server.Network
 	{
 		private string m_Name;
 		private int m_FullPercent;
-		private int m_TimeZone;
+		private int m_TimeZoneInfo;
 		private IPEndPoint m_Address;
 
 		public string Name
@@ -4392,15 +4392,15 @@ namespace Server.Network
 			}
 		}
 
-		public int TimeZone
+		public int TimeZoneInfo
 		{
 			get
 			{
-				return m_TimeZone;
+				return m_TimeZoneInfo;
 			}
 			set
 			{
-				m_TimeZone = value;
+				m_TimeZoneInfo = value;
 			}
 		}
 
@@ -4416,11 +4416,11 @@ namespace Server.Network
 			}
 		}
 
-		public ServerInfo( string name, int fullPercent, TimeZone tz, IPEndPoint address )
+		public ServerInfo( string name, int fullPercent, TimeZoneInfo tz, IPEndPoint address )
 		{
 			m_Name = name;
 			m_FullPercent = fullPercent;
-			m_TimeZone = tz.GetUtcOffset( DateTime.Now ).Hours;
+			m_TimeZoneInfo = tz.GetUtcOffset( DateTime.Now ).Hours;
 			m_Address = address;
 		}
 	}
@@ -4451,7 +4451,7 @@ namespace Server.Network
 				m_Stream.Write( (ushort) i );
 				m_Stream.WriteAsciiFixed( si.Name, 32 );
 				m_Stream.Write( (byte) si.FullPercent );
-				m_Stream.Write( (sbyte) si.TimeZone );
+				m_Stream.Write( (sbyte) si.TimeZoneInfo );
 				m_Stream.Write( (int) Utility.GetAddressValue( si.Address.Address ) );
 			}
 		}
