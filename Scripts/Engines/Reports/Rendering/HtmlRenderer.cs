@@ -188,7 +188,7 @@ namespace Server.Engines.Reports
 			}
 
 			html.RenderBeginTag( HtmlTag.Center );
-			TimeZone tz = TimeZone.CurrentTimeZone;
+			TimeZoneInfo tz = TimeZoneInfo.Local;
 			bool isDaylight = tz.IsDaylightSavingTime( m_TimeStamp );
 			TimeSpan utcOffset = tz.GetUtcOffset( m_TimeStamp );
 
@@ -252,7 +252,7 @@ namespace Server.Engines.Reports
 
 			html.Write( "<br>" );
 
-			TimeZone tz = TimeZone.CurrentTimeZone;
+			TimeZoneInfo tz = TimeZoneInfo.Local;
 			bool isDaylight = tz.IsDaylightSavingTime( m_TimeStamp );
 			TimeSpan utcOffset = tz.GetUtcOffset( m_TimeStamp );
 
