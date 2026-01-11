@@ -19,5 +19,5 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc /optimize /unsafe /t:exe /ou
 #### Linux (MONO)
 
 ```console
-$ mcs -optimize+ -unsafe -t:exe -out:WalkUO.exe -win32icon:Server/walkuo.ico -nowarn:219,414 -d:NEWTIMERS -d:NEWPARENT -d:MONO -reference:System.Drawing -recurse:Server/*.cs
+$ mcs -optimize+ -unsafe -t:exe -out:WalkUO.exe -win32icon:Server/walkuo.ico -nowarn:219,414 -d:NEWTIMERS -d:NEWPARENT -d:MONO -reference:System.Drawing -recurse:'Server/*.cs'
 ```
