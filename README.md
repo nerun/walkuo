@@ -23,3 +23,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc /optimize /unsafe /t:exe /ou
 ```console
 $ mcs -optimize+ -unsafe -t:exe -out:WalkUO.exe -win32icon:Server/walkuo.ico -nowarn:219,414 -d:NEWTIMERS -d:NEWPARENT -d:MONO -reference:System.Drawing -recurse:'Server/*.cs'
 ```
+
+## Client
+
+I recommend using [ClassicUO](https://github.com/ClassicUO/ClassicUO) to connect to the server. It's a modern, open-source implementation that offers a number of quality-of-life improvements, such as adjustable resolution, among others.
