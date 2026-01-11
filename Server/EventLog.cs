@@ -2,7 +2,7 @@
  *                                EventLog.cs
  *                            -------------------
  *   begin                : May 1, 2002
- *   copyright            : (C) The RunUO Software Team
+ *   copyright            : (C) The WalkUO Software Team
  *   email                : info@runuo.com
  *
  *   $Id$
@@ -28,15 +28,15 @@ namespace Server
 	{
 		static EventLog()
 		{
-			if ( !DiagELog.SourceExists( "RunUO" ) )
+			if ( !DiagELog.SourceExists( "WalkUO" ) )
 			{
-				DiagELog.CreateEventSource( "RunUO", "Application" );
+				DiagELog.CreateEventSource( "WalkUO", "Application" );
 			}
 		}
 
 		public static void Error( int eventID, string text )
 		{
-			DiagELog.WriteEntry( "RunUO", text, EventLogEntryType.Error, eventID );
+			DiagELog.WriteEntry( "WalkUO", text, EventLogEntryType.Error, eventID );
 		}
 
 		public static void Error( int eventID, string format, params object[] args )
@@ -46,7 +46,7 @@ namespace Server
 
 		public static void Warning( int eventID, string text )
 		{
-			DiagELog.WriteEntry( "RunUO", text, EventLogEntryType.Warning, eventID );
+			DiagELog.WriteEntry( "WalkUO", text, EventLogEntryType.Warning, eventID );
 		}
 
 		public static void Warning( int eventID, string format, params object[] args )
@@ -56,7 +56,7 @@ namespace Server
 
 		public static void Inform( int eventID, string text )
 		{
-			DiagELog.WriteEntry( "RunUO", text, EventLogEntryType.Information, eventID );
+			DiagELog.WriteEntry( "WalkUO", text, EventLogEntryType.Information, eventID );
 		}
 
 		public static void Inform( int eventID, string format, params object[] args )

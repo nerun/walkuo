@@ -77,7 +77,7 @@ namespace Server
 			 * Midnight ->  3:59 AM : Night
 			 *  4:00 AM -> 11:59 PM : Day
 			 * 
-			 * RunUO times:
+			 * WalkUO times:
 			 * 
 			 * 10:00 PM -> 11:59 PM : Scale to night
 			 * Midnight ->  3:59 AM : Night

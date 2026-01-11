@@ -1417,7 +1417,7 @@ namespace Server.Mobiles
 
 		Seems this actually was removed on OSI somewhere between the original bug report and now.
 		We will call it ML, until we can get better information. I suspect it was on the OSI TC when
-		originally it taken out of RunUO, and not implmented on OSIs production shards until more 
+		originally it taken out of WalkUO, and not implmented on OSIs production shards until more 
 		recently.  Either way, this is, or was, accurate OSI behavior, and just entirely 
 		removing it was incorrect.  OSI followers were distracted by being attacked well into
 		AoS, at very least.
@@ -4955,7 +4955,7 @@ namespace Server.Mobiles
 			}
 		}
 
-		/* To save on cpu usage, RunUO creatures only reacquire creatures under the following circumstances:
+		/* To save on cpu usage, WalkUO creatures only reacquire creatures under the following circumstances:
 		 *  - 10 seconds have elapsed since the last time it tried
 		 *  - The creature was attacked
 		 *  - Some creatures, like dragons, will reacquire when they see someone move

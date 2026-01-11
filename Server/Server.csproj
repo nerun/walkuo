@@ -6,7 +6,7 @@
     <ProjectGuid>{0B33CEEB-88E1-49A6-8D7D-AF6A5A357087}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>RunUO</AssemblyName>
+    <AssemblyName>WalkUO</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -31,7 +31,7 @@
     <RootNamespace>Server</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>runuo.ico</ApplicationIcon>
+    <ApplicationIcon>walkuo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Server.Core</StartupObject>
@@ -214,7 +214,7 @@
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="runuo.ico" />
+    <Content Include="walkuo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.Targets" />
   <ProjectExtensions>

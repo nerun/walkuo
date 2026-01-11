@@ -331,13 +331,13 @@ namespace Server.Engines.Help
                 }
             }
 
-            mail.Subject = "RunUO Speech Log Page Forwarding";
+            mail.Subject = "WalkUO Speech Log Page Forwarding";
 
             var body = new BodyBuilder();
 
             using (StringWriter writer = new StringWriter())
             {
-                writer.WriteLine("RunUO Speech Log Page - {0}", GetPageTypeName(entry.Type));
+                writer.WriteLine("WalkUO Speech Log Page - {0}", GetPageTypeName(entry.Type));
                 writer.WriteLine();
 
                 writer.WriteLine("From: '{0}', Account: '{1}'",

@@ -187,7 +187,7 @@ namespace Server.Commands
 					op.WriteLine( "{0}\t{1:F2}%\t{2}", de.Value, (100 * (int)de.Value) / (double)World.Mobiles.Count, de.Key );
 			}
 
-			e.Mobile.SendMessage( "Object table has been generated. See the file : <runuo root>/objects.log" );
+			e.Mobile.SendMessage( "Object table has been generated. See the file : <walkuo root>/objects.log" );
 		}
 
 		[Usage( "TraceExpanded" )]

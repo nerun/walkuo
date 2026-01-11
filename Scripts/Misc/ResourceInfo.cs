@@ -674,7 +674,7 @@ namespace Server.Items
 		}
 	}
 
-	// NOTE: This class is only for compatability with very old RunUO versions.
+	// NOTE: This class is only for compatability with very old WalkUO versions.
 	// No changes to it should be required for custom resources.
 	public class OreInfo
 	{

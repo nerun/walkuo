@@ -144,7 +144,7 @@ namespace Server.Items
 			/*
 			 * Unique problems have unique solutions.  OSI does not have a problem with 1000s of mining carts
 			 * due to the fact that they have only a miniscule fraction of the number of 10 year vets that a
-			 * typical RunUO shard will have (RunUO's scaled down account aging system makes this a unique problem),
+			 * typical WalkUO shard will have (WalkUO's scaled down account aging system makes this a unique problem),
 			 * and the "freeness" of free accounts. We also dont have mitigating factors like inactive (unpaid)
 			 * accounts not gaining veteran time.
 			 *
