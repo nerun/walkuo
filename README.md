@@ -1,5 +1,7 @@
 # WalkUO
 
+![WalkUO icon](Server/walkuo.ico)
+
 WalkUO is a fork of RunUO, an Ultima Online server, focused on long-term maintenance and gradual evolution.
 
 > _RunUO is no longer officially supported by a core team._
