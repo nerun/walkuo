@@ -48,12 +48,12 @@ namespace Server.Misc
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(Email.FromAddress, Email.FromAddress));
             message.To.Add(new MailboxAddress(Email.CrashAddresses, Email.CrashAddresses));
-            message.Subject = "Automated RunUO Crash Report";
+            message.Subject = "Automated WalkUO Crash Report";
 
             // Corpo simples
             var body = new TextPart("plain")
             {
-                Text = "Automated RunUO Crash Report. See attachment for details."
+                Text = "Automated WalkUO Crash Report. See attachment for details."
             };
 
             // Anexo
@@ -206,7 +206,7 @@ namespace Server.Misc
                     op.WriteLine("Server Crash Report");
                     op.WriteLine("===================");
                     op.WriteLine();
-                    op.WriteLine("RunUO Version {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
+                    op.WriteLine("WalkUO Version {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
                     op.WriteLine("Operating System: {0}", Environment.OSVersion);
                     op.WriteLine(".NET Framework: {0}", Environment.Version);
                     op.WriteLine("Time: {0}", DateTime.UtcNow);

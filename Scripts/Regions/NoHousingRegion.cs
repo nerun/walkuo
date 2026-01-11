@@ -7,7 +7,7 @@ namespace Server.Regions
 	public class NoHousingRegion : BaseRegion
 	{
 		/*  - False: this uses 'stupid OSI' house placement checking: part of the house may be placed here provided that the center is not in the region
-		 *  -  True: this uses 'smart RunUO' house placement checking: no part of the house may be in the region
+		 *  -  True: this uses 'smart WalkUO' house placement checking: no part of the house may be in the region
 		 */
 		private bool m_SmartChecking;
 

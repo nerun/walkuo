@@ -1,23 +1,23 @@
-runuo
-=====
+# WalkUO
 
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/4tjo91e4qotjtsgq?svg=true)](https://ci.appveyor.com/project/ms/runuo) [![Travis Build Status](https://travis-ci.org/runuo/runuo.svg)](https://travis-ci.org/runuo/runuo)
+WalkUO is a fork of RunUO, an Ultima Online server, focused on long-term maintenance and gradual evolution.
 
-[![Join the chat at https://gitter.im/runuo/runuo](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/runuo/runuo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+> _RunUO is no longer officially supported by a core team._
+>
+> _If you wish to find support in a wider UO development community, visit [ServUO - Ultima Online Emulation](http://www.servuo.com)._
 
-RunUO Git Repository
+## Build
 
-*** 
-RunUO is no longer officially supported by a core team.
+Inside the WalkUO folder, run the following command:
 
-If you wish to find support in a wider UO development commuity, visit [ServUO - Ultima Online Emulation](http://www.servuo.com)
-***
+#### Windows
 
-Typical Windows Build
+```console
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc /optimize /unsafe /t:exe /out:WalkUO.exe /win32icon:Server\walkuo.ico /d:NEWTIMERS /d:NEWPARENT /recurse:Server\\*.cs
+```
 
-PS C:\runuo> C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc /optimize /unsafe /t:exe /out:RunUO.exe /win32icon:Server\runuo.ico /d:NEWTIMERS /d:NEWPARENT /recurse:Server\\*.cs
+#### Linux (MONO)
 
-
-Typical Linux Build (MONO)
-
-~/runuo$ mcs -optimize+ -unsafe -t:exe -out:RunUO.exe -win32icon:Server/runuo.ico -nowarn:219,414 -d:NEWTIMERS -d:NEWPARENT -d:MONO -reference:System.Drawing -recurse:Server/*.cs
+```console
+$ mcs -optimize+ -unsafe -t:exe -out:WalkUO.exe -win32icon:Server/walkuo.ico -nowarn:219,414 -d:NEWTIMERS -d:NEWPARENT -d:MONO -reference:System.Drawing -recurse:Server/*.cs
+```

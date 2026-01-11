@@ -2,7 +2,7 @@
  *                              AssemblyInfo.cs
  *                            -------------------
  *   begin                : May 1, 2002
- *   copyright            : (C) The RunUO Software Team
+ *   copyright            : (C) The WalkUO Software Team
  *   email                : info@runuo.com
  *
  *   $Id$
@@ -27,11 +27,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("RunUO Server Core")]	//Having just RunUO there is reundant, ie, RunUO.exe with the word 'RunUO' under it
+[assembly: AssemblyTitle("WalkUO Server Core")]	//Having just WalkUO there is reundant, ie, WalkUO.exe with the word 'WalkUO' under it
 [assembly: AssemblyDescription("UO Server Software")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("RunUO")]
-[assembly: AssemblyProduct("RunUO")]
+[assembly: AssemblyCompany("WalkUO")]
+[assembly: AssemblyProduct("WalkUO")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

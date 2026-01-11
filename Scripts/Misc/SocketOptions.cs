@@ -36,7 +36,7 @@ namespace Server
 				return;
 
 			if ( !NagleEnabled )
-				e.Socket.SetSocketOption( SocketOptionLevel.Tcp, SocketOptionName.NoDelay, 1 ); // RunUO uses its own algorithm
+				e.Socket.SetSocketOption( SocketOptionLevel.Tcp, SocketOptionName.NoDelay, 1 ); // WalkUO uses its own algorithm
 		}
 	}
 }

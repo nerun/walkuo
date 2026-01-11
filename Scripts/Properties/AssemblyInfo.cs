@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RunUO Scripts Assembly")]
-[assembly: AssemblyDescription("RunUO Scripts Assembly")]
+[assembly: AssemblyTitle("WalkUO Scripts Assembly")]
+[assembly: AssemblyDescription("WalkUO Scripts Assembly")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("RunUO")]
-[assembly: AssemblyProduct("RunUO")]
+[assembly: AssemblyCompany("WalkUO")]
+[assembly: AssemblyProduct("WalkUO")]
 [assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

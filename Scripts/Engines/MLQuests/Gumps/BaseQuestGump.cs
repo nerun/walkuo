@@ -104,7 +104,7 @@ namespace Server.Engines.MLQuests.Gumps
 				AddHtmlLocalized( 130, 68, 220, 48, 1114513, m_Title, 0x2710, false, false ); // <DIV ALIGN=CENTER>~1_TOKEN~</DIV>
 		}
 #else
-		// RunUO optimized version
+		// WalkUO optimized version
 		public BaseQuestGump( int label )
 			: base( 75, 25 )
 		{
