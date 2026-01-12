@@ -1,8 +1,10 @@
+<p align="center">
+    <img src="Server/icon_media/walkuo-512.png" width="256">
+</p>
+
 # WalkUO
 
-![WalkUO icon](Server/walkuo.ico)
-
-WalkUO is a fork of RunOU, an Ultima Online server emulator, focused on long-term support (LTS) and gradual evolution.
+WalkUO is a fork of RunUO, an Ultima Online server emulator, focused on long-term support (LTS) and gradual evolution.
 
 ## Build
 
@@ -28,11 +30,11 @@ I recommend using [ClassicUO](https://github.com/ClassicUO/ClassicUO) to connect
 
 If you are looking for a modern emulator, in tune with the latest expansions and most recent updates of *Ultima Online*, and supported by an active and vibrant community, give **ServUO** a try.
 
-* Community: [https://www.servuo.dev/](https://www.servuo.dev/)
+* Community: [https://www.servuo.dev](https://www.servuo.dev)
 * Source code: [https://github.com/ServUO/ServUO](https://github.com/ServUO/ServUO)
 
 If you are looking for an even more modern and highly promising emulator, still in development and not yet production-ready, give **ModernUO** a try.
 
-* Website: [https://modernuo.com/](https://modernuo.com/)
-* Community (Discord): [https://discord.gg/TEgwjpkPhM](https://discord.gg/TEgwjpkPhM)
+* Website: [https://modernuo.com](https://modernuo.com)
+* Community (Discord): [https://muo.gg/discord](https://muo.gg/discord)
 * Source code: [https://github.com/modernuo/ModernUO](https://github.com/modernuo/ModernUO)
