@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see <https://www.gnu.org/licenses/>.
- ***************************************************************************/
+ ****************************************************************************/
 using System;
 using System.Collections;
 using System.IO;
@@ -63,13 +63,19 @@ namespace Server.Engines.Help
 
         private PageInfo m_PageInfo;
 
-        public PageInfo PageInfo => m_PageInfo;
+        public PageInfo PageInfo
+        {
+            get { return m_PageInfo; }
+        }
 
-        public Mobile Sender => m_Sender;
+        public Mobile Sender
+        {
+            get { return m_Sender; }
+        }
 
         public Mobile Handler
         {
-            get => m_Handler;
+            get { return m_Handler; }
             set
             {
                 PageQueue.OnHandlerChanged(m_Handler, value, this);
@@ -77,24 +83,44 @@ namespace Server.Engines.Help
             }
         }
 
-        public DateTime Sent => m_Sent;
+        public DateTime Sent
+        {
+            get { return m_Sent; }
+        }
 
-        public string Message => m_Message;
+        public string Message
+        {
+            get { return m_Message; }
+        }
 
-        public PageType Type => m_Type;
+        public PageType Type
+        {
+            get { return m_Type; }
+        }
 
-        public Point3D PageLocation => m_PageLocation;
+        public Point3D PageLocation
+        {
+            get { return m_PageLocation; }
+        }
 
-        public Map PageMap => m_PageMap;
+        public Map PageMap
+        {
+            get { return m_PageMap; }
+        }
 
-        public List<SpeechLogEntry> SpeechLog => m_SpeechLog;
+        public List<SpeechLogEntry> SpeechLog
+        {
+            get { return m_SpeechLog; }
+        }
 
         private Timer m_Timer;
 
         public void Stop()
         {
             if (m_Timer != null)
+            {
                 m_Timer.Stop();
+            }
 
             m_Timer = null;
         }
@@ -104,10 +130,14 @@ namespace Server.Engines.Help
             if (m_PageInfo != null)
             {
                 lock (m_PageInfo)
+                {
                     m_PageInfo.Responses.Add(PageInfo.GetAccount(mob), text);
+                }
 
                 if (PageInfo.ResFromResp(text) != PageResolution.None)
+                {
                     m_PageInfo.UpdateResolver();
+                }
             }
         }
 
@@ -157,8 +187,10 @@ namespace Server.Engines.Help
 
                 if (m_Entry.Sender.NetState != null && index != -1)
                 {
-                    m_Entry.Sender.SendLocalizedMessage(1008077, true, (index + 1).ToString()); // Thank you for paging. Queue status :
-                    m_Entry.Sender.SendLocalizedMessage(1008084); // You can reference our website at www.uo.com or contact us at support@uo.com. To cancel your page, please select the help button again and select cancel.
+                    // Thank you for paging. Queue status :
+                    m_Entry.Sender.SendLocalizedMessage(1008077, true, (index + 1).ToString());
+                    // You can reference our website at www.uo.com or contact us at support@uo.com.
+                    m_Entry.Sender.SendLocalizedMessage(1008084);
 
                     if (m_Entry.Handler != null &&
                         m_Entry.Handler.NetState == null)
@@ -169,7 +201,9 @@ namespace Server.Engines.Help
                 else
                 {
                     if (index != -1)
+                    {
                         m_Entry.AddResponse(m_Entry.Sender, "[Logout]");
+                    }
 
                     PageQueue.Remove(m_Entry);
                 }
@@ -193,11 +227,14 @@ namespace Server.Engines.Help
             PlayerMobile pm = from as PlayerMobile;
 
             if (pm == null)
+            {
                 return true;
+            }
 
             if (pm.DesignContext != null)
             {
-                from.SendLocalizedMessage(500182); // You cannot request help while customizing a house or transferring a character.
+                // You cannot request help while customizing a house or transferring a character.
+                from.SendLocalizedMessage(500182);
                 return false;
             }
             else if (pm.PagingSquelched)
@@ -212,20 +249,30 @@ namespace Server.Engines.Help
         public static string GetPageTypeName(PageType type)
         {
             if (type == PageType.VerbalHarassment)
+            {
                 return "Verbal Harassment";
+            }
             else if (type == PageType.PhysicalHarassment)
+            {
                 return "Physical Harassment";
+            }
             else
+            {
                 return type.ToString();
+            }
         }
 
         public static void OnHandlerChanged(Mobile old, Mobile value, PageEntry entry)
         {
             if (old != null)
+            {
                 m_KeyedByHandler.Remove(old);
+            }
 
             if (value != null)
+            {
                 m_KeyedByHandler[value] = entry;
+            }
         }
 
         [Usage("Pages")]
@@ -271,7 +318,9 @@ namespace Server.Engines.Help
         public static void Remove(PageEntry e)
         {
             if (e == null)
+            {
                 return;
+            }
 
             e.Stop();
 
@@ -279,7 +328,9 @@ namespace Server.Engines.Help
             m_KeyedBySender.Remove(e.Sender);
 
             if (e.Handler != null)
+            {
                 m_KeyedByHandler.Remove(e.Handler);
+            }
         }
 
         public static PageEntry GetEntry(Mobile sender)
@@ -292,7 +343,10 @@ namespace Server.Engines.Help
             Remove(GetEntry(sender));
         }
 
-        public static ArrayList List => m_List;
+        public static ArrayList List
+        {
+            get { return m_List; }
+        }
 
         public static void Enqueue(PageEntry entry)
         {
@@ -322,7 +376,8 @@ namespace Server.Engines.Help
             if (!isStaffOnline)
             {
                 entry.Sender.SendMessage(
-                    "We are sorry, but no staff members are currently available to assist you. Your page will remain in the queue until one becomes available, or until you cancel it manually.");
+                    "We are sorry, but no staff members are currently available to assist you. " +
+                    "Your page will remain in the queue until one becomes available, or until you cancel it manually.");
             }
 
             if (Email.FromAddress != null &&
@@ -338,7 +393,7 @@ namespace Server.Engines.Help
             Mobile sender = entry.Sender;
             DateTime time = DateTime.UtcNow;
 
-            var mail = new MimeMessage();
+            MimeMessage mail = new MimeMessage();
 
             mail.From.Add(new MailboxAddress(Email.FromAddress, Email.FromAddress));
 
@@ -352,7 +407,7 @@ namespace Server.Engines.Help
 
             mail.Subject = "WalkUO Speech Log Page Forwarding";
 
-            var body = new BodyBuilder();
+            BodyBuilder body = new BodyBuilder();
 
             using (StringWriter writer = new StringWriter())
             {
