@@ -24,7 +24,6 @@ using Server.Network;
 using Server.Gumps;
 
 namespace Server.Misc
-#pragma warning disable CS0162
 {
     public static partial class Assistants
     {
@@ -105,6 +104,7 @@ namespace Server.Misc
             public static Features DisallowedFeatures { get { return m_DisallowedFeatures; } }
         }
 
+#pragma warning disable CS0162
         private static class Negotiator
         {
             private static Dictionary<Mobile, Timer> m_Dictionary = new Dictionary<Mobile, Timer>();
@@ -211,6 +211,6 @@ namespace Server.Misc
                 }
             }
         }
+#pragma warning restore CS0162
     }
 }
-#pragma warning restore CS0162
