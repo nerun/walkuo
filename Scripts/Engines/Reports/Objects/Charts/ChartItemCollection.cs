@@ -60,12 +60,12 @@ namespace Server.Engines.Reports
             {
                 this.List[index] = value;
             }
-		}
+        }
 
-		public int Add( string name, int value )
-		{
-			return Add( new ChartItem( name, value ) );
-		}
+        public int Add( string name, int value )
+        {
+            return Add( new ChartItem( name, value ) );
+        }
 
         /// <summary>
         /// Append a Server.Engines.Reports.ChartItem entry to this collection.
