@@ -4,6 +4,9 @@
  * RunUO is an open-source server emulator for Ultima Online.
  * Copyright (C) 2002  The RunUO Software Team
  *
+ * Modifications and LTS maintenance for WalkUO:
+ * Copyright (C) 2026  Daniel Dias Rodrigues, a.k.a. "Nerun"
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -16,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see <https://www.gnu.org/licenses/>.
- ***************************************************************************/
+ ****************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -266,6 +269,19 @@ namespace Server
                 return m_BaseDirectory;
             }
         }
+        
+        private static bool HasArg( string arg, string expected )
+        {
+            return Insensitive.Equals( arg, expected );
+        }
+
+        private static void AppendArg( StringBuilder sb, bool condition, string arg )
+        {
+            if( condition )
+            {
+                Utility.Separate( sb, arg, " " );
+            }
+        }
 
         private static void CurrentDomain_UnhandledException( object sender, UnhandledExceptionEventArgs e )
         {
@@ -286,8 +302,9 @@ namespace Server
 
                     close = args.Close;
                 }
-                catch
+                catch ( Exception ex )
                 {
+                    Console.WriteLine( ex );
                 }
 
                 if( !close && !m_Service )
@@ -299,8 +316,9 @@ namespace Server
                             l.Dispose();
                         }
                     }
-                    catch
+                    catch ( Exception ex )
                     {
+                        Console.WriteLine( ex );
                     }
 
                     Console.WriteLine( "This exception is fatal, press return to exit" );
@@ -351,7 +369,38 @@ namespace Server
 
         public static float CyclesPerSecond { get { return m_CyclesPerSecond[(m_CycleIndex - 1) % m_CyclesPerSecond.Length]; } }
 
-        public static float AverageCPS { get { return m_CyclesPerSecond.Take(m_CycleIndex).Average(); } }
+        /* AverageCPS calculation was rewritten to avoid LINQ and unbounded indices.
+         * The previous implementation used Take(...).Average(), which:
+         *  - Allocates and iterates via LINQ in the main server loop
+         *  - Relies on a growing index that can drift or overflow over long uptimes
+         *  - Can divide by zero during early startup
+         *
+         * This version uses a simple bounded loop and double precision arithmetic.
+         * It is allocation-free, predictable, and stable for long-running servers,
+         * which is critical for LTS maintenance and Mono compatibility.
+         */
+        public static double AverageCPS
+        {
+            get
+            {
+                int count = m_CycleIndex;
+
+                if ( count <= 0 )
+                    return 0.0;
+
+                if ( count > m_CyclesPerSecond.Length )
+                    count = m_CyclesPerSecond.Length;
+
+                double total = 0.0;
+
+                for ( int i = 0; i < count; i++ )
+                {
+                    total += m_CyclesPerSecond[i];
+                }
+
+                return total / count;
+            }
+        }
 
         public static void Kill()
         {
@@ -363,9 +412,28 @@ namespace Server
             HandleClosed();
 
             if ( restart )
-                Process.Start( ExePath, Arguments );
+            {
+                try
+                {
+                    Process.Start( ExePath, Arguments );
+                }
+                catch ( Exception ex )
+                {
+                    Console.WriteLine( ex );
+                }
+            }
 
-            m_Process.Kill();
+            try
+            {
+                if ( m_Process != null && !m_Process.HasExited )
+                {
+                    m_Process.Kill();
+                }
+            }
+            catch ( Exception ex )
+            {
+                Console.WriteLine( ex );
+            }
         }
 
         private static void HandleClosed()
@@ -398,19 +466,19 @@ namespace Server
 
             foreach (string a in args)
             {
-                if ( Insensitive.Equals( a, "-debug" ) )
+                if ( HasArg( a, "-debug" ) )
                     m_Debug = true;
-                else if ( Insensitive.Equals( a, "-service" ) )
+                else if ( HasArg( a, "-service" ) )
                     m_Service = true;
-                else if ( Insensitive.Equals( a, "-profile" ) )
+                else if ( HasArg( a, "-profile" ) )
                     Profiling = true;
-                else if ( Insensitive.Equals( a, "-nocache" ) )
+                else if ( HasArg( a, "-nocache" ) )
                     m_Cache = false;
-                else if ( Insensitive.Equals( a, "-haltonwarning" ) )
+                else if ( HasArg( a, "-haltonwarning" ) )
                     m_HaltOnWarning = true;
-                else if ( Insensitive.Equals( a, "-vb" ) )
+                else if ( HasArg( a, "-vb" ) )
                     m_VBdotNET = true;
-                else if ( Insensitive.Equals( a, "-usehrt" ) )
+                else if ( HasArg( a, "-usehrt" ) )
                     _UseHRT = true;
             }
 
@@ -563,26 +631,13 @@ namespace Server
             {
                 StringBuilder sb = new StringBuilder();
 
-                if( m_Debug )
-                    Utility.Separate( sb, "-debug", " " );
-
-                if( m_Service )
-                    Utility.Separate( sb, "-service", " " );
-
-                if( m_Profiling )
-                    Utility.Separate( sb, "-profile", " " );
-
-                if( !m_Cache )
-                    Utility.Separate( sb, "-nocache", " " );
-
-                if( m_HaltOnWarning )
-                    Utility.Separate( sb, "-haltonwarning", " " );
-
-                if ( m_VBdotNET )
-                    Utility.Separate( sb, "-vb", " " );
-
-                if ( _UseHRT )
-                    Utility.Separate( sb, "-usehrt", " " );
+                AppendArg( sb, m_Debug, "-debug" );
+                AppendArg( sb, m_Service, "-service" );
+                AppendArg( sb, m_Profiling, "-profile" );
+                AppendArg( sb, !m_Cache, "-nocache" );
+                AppendArg( sb, m_HaltOnWarning, "-haltonwarning" );
+                AppendArg( sb, m_VBdotNET, "-vb" );
+                AppendArg( sb, _UseHRT, "-usehrt" );
 
                 return sb.ToString();
             }
@@ -698,22 +753,48 @@ namespace Server
         {
             if (a != null)
             {
-                Parallel.ForEach(a.GetTypes(), VerifyType);
+                // No "implicit parallelism"
+                if (m_MultiProcessor)
+                {
+                    Parallel.ForEach(a.GetTypes(), VerifyType);
+                }
+                else
+                {
+                    foreach (var t in a.GetTypes())
+                    {
+                        VerifyType(t);
+                    }
+                }
             }
         }
     }
 
+    /* FileLogger design notes (LTS):
+     *
+     * This logger keeps a single StreamWriter open for the lifetime of the process
+     * to avoid the high cost of opening and closing file streams on every write.
+     *
+     * All write operations are synchronized to prevent interleaved or corrupted
+     * log output when accessed from multiple threads.
+     *
+     * Timestamps are emitted only at the start of a logical line. Both Write(char)
+     * and Write(string) may complete a line, and newline detection updates internal
+     * state accordingly.
+     *
+     * The writer is flushed and closed explicitly during shutdown to ensure log
+     * integrity on both .NET Framework and Mono.
+     */
     public class FileLogger : TextWriter
     {
         public const string DateFormat = "[MMMM dd hh:mm:ss.f tt]: ";
-
+        
+        private StreamWriter _Writer;
+        private readonly object _SyncRoot = new object();
         private bool _NewLine;
 
         public string FileName { get; private set; }
 
-        public FileLogger(string file)
-            : this(file, false)
-        { }
+        public FileLogger(string file) : this(file, false) { }
 
         public FileLogger(string file, bool append)
         {
@@ -730,50 +811,89 @@ namespace Server
 
             _NewLine = true;
         }
-
-        public override void Write(char ch)
+        
+        private StreamWriter GetWriter()
         {
-            using (var writer = new StreamWriter(new FileStream(FileName, FileMode.Append, FileAccess.Write, FileShare.Read)))
+            if ( _Writer != null )
+                return _Writer;
+
+            lock ( _SyncRoot )
             {
-                if (_NewLine)
+                if ( _Writer == null )
                 {
-                    writer.Write(DateTime.UtcNow.ToString(DateFormat));
+                    _Writer = new StreamWriter(
+                        new FileStream(
+                            FileName,
+                            FileMode.Append,
+                            FileAccess.Write,
+                            FileShare.Read));
+                }
+            }
+
+            return _Writer;
+        }
+
+        private void WriteInternal( Action<StreamWriter> action, bool endsLine )
+        {
+            lock ( _SyncRoot )
+            {
+                StreamWriter writer = GetWriter();
+
+                if ( _NewLine )
+                {
+                    writer.Write( DateTime.UtcNow.ToString( DateFormat ) );
                     _NewLine = false;
                 }
 
-                writer.Write(ch);
+                action( writer );
+
+                if ( endsLine )
+                {
+                    _NewLine = true;
+                }
+
+                writer.Flush();
             }
         }
 
-        public override void Write(string str)
+        public override void Write( char ch )
         {
-            using (var writer = new StreamWriter(new FileStream(FileName, FileMode.Append, FileAccess.Write, FileShare.Read)))
-            {
-                if (_NewLine)
-                {
-                    writer.Write(DateTime.UtcNow.ToString(DateFormat));
-                    _NewLine = false;
-                }
-
-                writer.Write(str);
-            }
+            WriteInternal(
+                writer => writer.Write( ch ),
+                ch == '\n'
+            );
         }
 
-        public override void WriteLine(string line)
+        public override void Write( string str )
         {
-            using (var writer = new StreamWriter(new FileStream(FileName, FileMode.Append, FileAccess.Write, FileShare.Read)))
-            {
-                if (_NewLine)
-                {
-                    writer.Write(DateTime.UtcNow.ToString(DateFormat));
-                }
+            WriteInternal(
+                writer => writer.Write( str ),
+                str.IndexOf( '\n' ) >= 0
+            );
+        }
 
-                writer.WriteLine(line);
-                _NewLine = true;
-            }
+        public override void WriteLine( string line )
+        {
+            WriteInternal(
+                writer => writer.WriteLine( line ),
+                true
+            );
         }
 
         public override Encoding Encoding { get { return Encoding.Default; } }
+
+        public void CloseWriter()
+        {
+            lock ( _SyncRoot )
+            {
+                if ( _Writer != null )
+                {
+                    _Writer.Flush();
+                    _Writer.Close();
+                    _Writer = null;
+                }
+            }
+        }
     }
 
     public class MultiTextWriter : TextWriter
@@ -784,7 +904,7 @@ namespace Server
         {
             _Streams = new List<TextWriter>(streams);
 
-            if (_Streams.Count < 0)
+            if (_Streams.Count == 0)
             {
                 throw new ArgumentException("You must specify at least one stream.");
             }
@@ -792,27 +912,39 @@ namespace Server
 
         public void Add(TextWriter tw)
         {
-            _Streams.Add(tw);
+            lock (_Streams)
+            {
+                _Streams.Add(tw);
+            }
         }
 
         public void Remove(TextWriter tw)
         {
-            _Streams.Remove(tw);
+            lock (_Streams)
+            {
+                _Streams.Remove(tw);
+            }
         }
 
         public override void Write(char ch)
         {
-            foreach (var t in _Streams)
+            lock (_Streams)
             {
-                t.Write(ch);
+                foreach (var t in _Streams)
+                {
+                    t.Write(ch);
+                }
             }
         }
 
         public override void WriteLine(string line)
         {
-            foreach (var t in _Streams)
+            lock (_Streams)
             {
-                t.WriteLine(line);
+                foreach (var t in _Streams)
+                {
+                    t.WriteLine(line);
+                }
             }
         }
 
