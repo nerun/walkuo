@@ -62,15 +62,15 @@ namespace Server.Engines.Reports
             }
         }
 
-		public int Add( string width, string align )
-		{
-			return Add( new ReportColumn( width, align ) );
-		}
+        public int Add( string width, string align )
+        {
+            return Add( new ReportColumn( width, align ) );
+        }
 
-		public int Add( string width, string align, string name )
-		{
-			return Add( new ReportColumn( width, align, name ) );
-		}
+        public int Add( string width, string align, string name )
+        {
+            return Add( new ReportColumn( width, align, name ) );
+        }
 
         /// <summary>
         /// Append a Server.Engines.Reports.ReportColumn entry to this collection.

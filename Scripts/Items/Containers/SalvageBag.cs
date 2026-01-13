@@ -29,8 +29,8 @@ namespace Server.Items
 {
     public class SalvageBag : Bag
     {
-		private bool m_Failure;
-		
+        private bool m_Failure;
+        
         public override int LabelNumber { get { return 1079931; } } // Salvage Bag
 
         [Constructable]
@@ -44,7 +44,7 @@ namespace Server.Items
         {
             Weight = 2.0;
             Hue = hue;
-			m_Failure = false;
+            m_Failure = false;
         }
 
         public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
@@ -58,56 +58,56 @@ namespace Server.Items
                 list.Add( new SalvageAllEntry( this, IsChildOf( from.Backpack ) && Resmeltables() && Scissorables() ) );
             }
         }
-		
-		#region Checks
-		private bool Resmeltables() //Where context menu checks for metal items and dragon barding deeds
-		{
-			foreach( Item i in Items )
-			{
-				if( i != null && !i.Deleted )
-				{
-					if( i is BaseWeapon )
-					{
-						if( CraftResources.GetType( ( (BaseWeapon)i ).Resource ) == CraftResourceType.Metal )
-						return true;
-					}
-					if( i is BaseArmor )
-					{
-						if( CraftResources.GetType( ( (BaseArmor)i ).Resource ) == CraftResourceType.Metal )
-						return true;
-					}
-					if( i is DragonBardingDeed )
-						return true;
-				}
-			}
-			return false;
-		}
-		
-		private bool Scissorables() //Where context menu checks for Leather items and cloth items
-		{
-			foreach( Item i in Items )
-			{
-				if( i != null && !i.Deleted )
-				{
-					if( i is IScissorable )
-					{
-						if( i is BaseClothing )
-							return true;
-						if( i is BaseArmor )
-						{
-							if( CraftResources.GetType( ( (BaseArmor)i ).Resource ) == CraftResourceType.Leather )
-							return true;
-						}
-						if( ( i is Cloth ) || ( i is BoltOfCloth ) || ( i is Hides ) || ( i is BonePile ) )
-							return true;
-					}
-				}
-			}
-			return false;
-		}
-		#endregion	
+        
+        #region Checks
+        private bool Resmeltables() //Where context menu checks for metal items and dragon barding deeds
+        {
+            foreach( Item i in Items )
+            {
+                if( i != null && !i.Deleted )
+                {
+                    if( i is BaseWeapon )
+                    {
+                        if( CraftResources.GetType( ( (BaseWeapon)i ).Resource ) == CraftResourceType.Metal )
+                        return true;
+                    }
+                    if( i is BaseArmor )
+                    {
+                        if( CraftResources.GetType( ( (BaseArmor)i ).Resource ) == CraftResourceType.Metal )
+                        return true;
+                    }
+                    if( i is DragonBardingDeed )
+                        return true;
+                }
+            }
+            return false;
+        }
+        
+        private bool Scissorables() //Where context menu checks for Leather items and cloth items
+        {
+            foreach( Item i in Items )
+            {
+                if( i != null && !i.Deleted )
+                {
+                    if( i is IScissorable )
+                    {
+                        if( i is BaseClothing )
+                            return true;
+                        if( i is BaseArmor )
+                        {
+                            if( CraftResources.GetType( ( (BaseArmor)i ).Resource ) == CraftResourceType.Leather )
+                            return true;
+                        }
+                        if( ( i is Cloth ) || ( i is BoltOfCloth ) || ( i is Hides ) || ( i is BonePile ) )
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+        #endregion    
 
-		#region Resmelt.cs
+        #region Resmelt.cs
         private bool Resmelt( Mobile from, Item item, CraftResource resource )
         {
             try
@@ -129,47 +129,47 @@ namespace Server.Items
 
                 if( craftResource.Amount < 2 )
                     return false; // Not enough metal to resmelt
-					
-				double difficulty = 0.0;
+                    
+                double difficulty = 0.0;
 
-				switch ( resource )
-				{
-					case CraftResource.DullCopper: difficulty = 65.0; break;
-					case CraftResource.ShadowIron: difficulty = 70.0; break;
-					case CraftResource.Copper: difficulty = 75.0; break;
-					case CraftResource.Bronze: difficulty = 80.0; break;
-					case CraftResource.Gold: difficulty = 85.0; break;
-					case CraftResource.Agapite: difficulty = 90.0; break;
-					case CraftResource.Verite: difficulty = 95.0; break;
-					case CraftResource.Valorite: difficulty = 99.0; break;
-				}				 
+                switch ( resource )
+                {
+                    case CraftResource.DullCopper: difficulty = 65.0; break;
+                    case CraftResource.ShadowIron: difficulty = 70.0; break;
+                    case CraftResource.Copper: difficulty = 75.0; break;
+                    case CraftResource.Bronze: difficulty = 80.0; break;
+                    case CraftResource.Gold: difficulty = 85.0; break;
+                    case CraftResource.Agapite: difficulty = 90.0; break;
+                    case CraftResource.Verite: difficulty = 95.0; break;
+                    case CraftResource.Valorite: difficulty = 99.0; break;
+                }                 
 
                 Type resourceType = info.ResourceTypes[ 0 ];
                 Item ingot = (Item)Activator.CreateInstance( resourceType );
 
                 if( item is DragonBardingDeed || ( item is BaseArmor && ( (BaseArmor)item ).PlayerConstructed ) || ( item is BaseWeapon && ( (BaseWeapon)item ).PlayerConstructed ) || ( item is BaseClothing && ( (BaseClothing)item ).PlayerConstructed ) )
-					{
-						double mining = from.Skills[ SkillName.Mining ].Value;
-						if( mining > 100.0 )
-							mining = 100.0;
-						double amount = ( ( ( 4 + mining ) * craftResource.Amount - 4 ) * 0.0068 );
-						if( amount < 2 )
-							ingot.Amount = 2;
-						else
-						ingot.Amount = (int)amount;
-					}
+                    {
+                        double mining = from.Skills[ SkillName.Mining ].Value;
+                        if( mining > 100.0 )
+                            mining = 100.0;
+                        double amount = ( ( ( 4 + mining ) * craftResource.Amount - 4 ) * 0.0068 );
+                        if( amount < 2 )
+                            ingot.Amount = 2;
+                        else
+                        ingot.Amount = (int)amount;
+                    }
                 else
-				{
+                {
                     ingot.Amount = 2;
-				}
-				
-				if ( difficulty > from.Skills[ SkillName.Mining ].Value )
-				{
-					m_Failure = true; 
-					ingot.Delete();
-				}
-				else
-					item.Delete();
+                }
+                
+                if ( difficulty > from.Skills[ SkillName.Mining ].Value )
+                {
+                    m_Failure = true; 
+                    ingot.Delete();
+                }
+                else
+                    item.Delete();
 
                 from.AddToBackpack( ingot );
 
@@ -185,9 +185,9 @@ namespace Server.Items
 
             return false;
         }
-		#endregion
-		
-		#region Salvaging
+        #endregion
+        
+        #region Salvaging
         private void SalvageIngots( Mobile from )
         {
             Item[] tools = from.Backpack.FindItemsByType( typeof( BaseTool ) );
@@ -216,46 +216,46 @@ namespace Server.Items
 
             int salvaged = 0;
             int notSalvaged = 0;
-			
-			Container sBag = this;
-			
-			List<Item> Smeltables = sBag.FindItemsByType<Item>();
+            
+            Container sBag = this;
+            
+            List<Item> Smeltables = sBag.FindItemsByType<Item>();
 
             for(int i = Smeltables.Count - 1; i >= 0; i--)
             {
                 Item item = Smeltables[ i ];
-				
-				if( item is BaseArmor )
-				{
-					if( Resmelt( from, item, ( (BaseArmor)item ).Resource ) )
-						salvaged++;
-					else
-						notSalvaged++;
-				}
-				else if( item is BaseWeapon )
-				{
-					if( Resmelt( from, item, ( (BaseWeapon)item ).Resource ) )
-						salvaged++;
-					else
-						notSalvaged++;
-				}
-				else if( item is DragonBardingDeed )
-				{
-					if( Resmelt( from, item, ( (DragonBardingDeed)item ).Resource ) )
-						salvaged++;
+                
+                if( item is BaseArmor )
+                {
+                    if( Resmelt( from, item, ( (BaseArmor)item ).Resource ) )
+                        salvaged++;
+                    else
+                        notSalvaged++;
+                }
+                else if( item is BaseWeapon )
+                {
+                    if( Resmelt( from, item, ( (BaseWeapon)item ).Resource ) )
+                        salvaged++;
+                    else
+                        notSalvaged++;
+                }
+                else if( item is DragonBardingDeed )
+                {
+                    if( Resmelt( from, item, ( (DragonBardingDeed)item ).Resource ) )
+                        salvaged++;
 
-					else
-						notSalvaged++;
-				}	
-			}
-			if( m_Failure )
-			{
-				from.SendLocalizedMessage( 1079975 ); // You failed to smelt some metal for lack of skill.
-				m_Failure = false;
-			}
-			else
-				from.SendLocalizedMessage( 1079973, String.Format( "{0}\t{1}", salvaged, salvaged + notSalvaged ) ); // Salvaged: ~1_COUNT~/~2_NUM~ blacksmithed items
-		}
+                    else
+                        notSalvaged++;
+                }    
+            }
+            if( m_Failure )
+            {
+                from.SendLocalizedMessage( 1079975 ); // You failed to smelt some metal for lack of skill.
+                m_Failure = false;
+            }
+            else
+                from.SendLocalizedMessage( 1079973, String.Format( "{0}\t{1}", salvaged, salvaged + notSalvaged ) ); // Salvaged: ~1_COUNT~/~2_NUM~ blacksmithed items
+        }
 
         private void SalvageCloth( Mobile from )
         {
@@ -268,37 +268,37 @@ namespace Server.Items
 
             int salvaged = 0;
             int notSalvaged = 0;
-			
-			Container sBag = this;
-			
-			List<Item> scissorables = sBag.FindItemsByType<Item>();
+            
+            Container sBag = this;
+            
+            List<Item> scissorables = sBag.FindItemsByType<Item>();
 
-			for ( int i = scissorables.Count - 1; i >= 0; --i )
-			{
-				Item item = scissorables[i];
+            for ( int i = scissorables.Count - 1; i >= 0; --i )
+            {
+                Item item = scissorables[i];
 
-				if ( item is IScissorable )
-				{
-					IScissorable scissorable = (IScissorable)item;
+                if ( item is IScissorable )
+                {
+                    IScissorable scissorable = (IScissorable)item;
 
-					if ( Scissors.CanScissor( from, scissorable ) && scissorable.Scissor( from, scissors ) )
-						++salvaged;
-					else
-						++notSalvaged;
-				}
-			}
-			
+                    if ( Scissors.CanScissor( from, scissorable ) && scissorable.Scissor( from, scissors ) )
+                        ++salvaged;
+                    else
+                        ++notSalvaged;
+                }
+            }
+            
             from.SendLocalizedMessage( 1079974, String.Format( "{0}\t{1}", salvaged, salvaged + notSalvaged ) ); // Salvaged: ~1_COUNT~/~2_NUM~ tailored items
-			
-			Container pack = from.Backpack;
-			
-			foreach (Item i in ((Container)this).FindItemsByType(typeof(Item), true))
-			{
-				if( ( i is Leather ) || ( i is Cloth ) || ( i is SpinedLeather ) || ( i is HornedLeather ) || ( i is BarbedLeather ) || ( i is Bandage ) || ( i is Bone ) )
-				{
-					from.AddToBackpack( i );
-				}
-			}	
+            
+            Container pack = from.Backpack;
+            
+            foreach (Item i in ((Container)this).FindItemsByType(typeof(Item), true))
+            {
+                if( ( i is Leather ) || ( i is Cloth ) || ( i is SpinedLeather ) || ( i is HornedLeather ) || ( i is BarbedLeather ) || ( i is Bandage ) || ( i is Bone ) )
+                {
+                    from.AddToBackpack( i );
+                }
+            }    
         }
 
         private void SalvageAll( Mobile from )
@@ -307,7 +307,7 @@ namespace Server.Items
 
             SalvageCloth( from );
         }
-		#endregion
+        #endregion
 
         #region ContextMenuEntries
         private class SalvageAllEntry : ContextMenuEntry

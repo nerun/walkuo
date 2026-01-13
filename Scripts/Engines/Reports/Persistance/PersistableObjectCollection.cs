@@ -72,10 +72,10 @@ namespace Server.Engines.Reports
             return this.List.Add(value);
         }
 
-		public void AddRange( PersistableObject[] col )
-		{
-			this.InnerList.AddRange( col );
-		}
+        public void AddRange( PersistableObject[] col )
+        {
+            this.InnerList.AddRange( col );
+        }
         
         /// <summary>
         /// Determines whether a specified Server.Engines.Reports.PersistableObject instance is in this collection.

@@ -62,10 +62,10 @@ namespace Server.Engines.Reports
             }
         }
 
-		public int Add( string sentBy, string message )
-		{
-			return Add( new ResponseInfo( sentBy, message ) );
-		}
+        public int Add( string sentBy, string message )
+        {
+            return Add( new ResponseInfo( sentBy, message ) );
+        }
         
         /// <summary>
         /// Append a Server.Engines.Reports.ResponseInfo entry to this collection.

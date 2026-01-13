@@ -62,15 +62,15 @@ namespace Server.Engines.Reports
             }
         }
 
-		public int Add( string value )
-		{
-			return Add( new ItemValue( value ) );
-		}
+        public int Add( string value )
+        {
+            return Add( new ItemValue( value ) );
+        }
 
-		public int Add( string value, string format )
-		{
-			return Add( new ItemValue( value, format ) );
-		}
+        public int Add( string value, string format )
+        {
+            return Add( new ItemValue( value, format ) );
+        }
 
         /// <summary>
         /// Append a Server.Engines.Reports.ItemValue entry to this collection.

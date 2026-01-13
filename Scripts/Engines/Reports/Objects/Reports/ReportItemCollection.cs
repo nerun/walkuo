@@ -60,22 +60,22 @@ namespace Server.Engines.Reports
             {
                 this.List[index] = value;
             }
-		}
+        }
 
-		public int Add( string name, object value )
-		{
-			return Add( name, value, null );
-		}
+        public int Add( string name, object value )
+        {
+            return Add( name, value, null );
+        }
 
-		public int Add( string name, object value, string format )
-		{
-			ReportItem item = new ReportItem();
+        public int Add( string name, object value, string format )
+        {
+            ReportItem item = new ReportItem();
 
-			item.Values.Add( name );
-			item.Values.Add( value == null ? "" : value.ToString(), format );
+            item.Values.Add( name );
+            item.Values.Add( value == null ? "" : value.ToString(), format );
 
-			return Add( item );
-		}
+            return Add( item );
+        }
         
         /// <summary>
         /// Append a Server.Engines.Reports.ReportItem entry to this collection.
